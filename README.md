@@ -1,66 +1,37 @@
-## Foundry
+### Hello Zokrates
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+https://zokrates.github.io/gettingstarted.html#hello-zokrates
 
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+First, create the text-file root.zok and implement your program. In this example, we will prove knowledge of the square root a of a number b:
+```
+def main(private field a, field b) {
+    assert(a * a == b);
+    return;
+}
 ```
 
-### Test
+Some observations:
 
-```shell
-$ forge test
+- The keyword `field` is the basic type we use, which is an element of a given prime field.
+- The keyword `private` signals that we do not want to reveal this input, but still prove that we know its value.
+
+Then run the different phases of the protocol:
+```
+# compile
+zokrates compile -i root.zok
+# perform the setup phase
+zokrates setup
+# execute the program
+zokrates compute-witness -a 337 113569
+# generate a proof of computation
+zokrates generate-proof
+# export a solidity verifier
+zokrates export-verifier
+# or verify natively
+zokrates verify
 ```
 
-### Format
 
-```shell
-$ forge fmt
-```
 
-### Gas Snapshots
 
-```shell
-$ forge snapshot
-```
 
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
